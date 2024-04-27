@@ -10,42 +10,51 @@ data = {
 
 # Criando um DataFrame a partir dos dados fornecidos
 df = pd.DataFrame(data)
+print("DataFrame original:")
+print(df)
 
 # Agrupando os dados por 'Classe'
 grupo = df.groupby("Classe")
 
 # Calculando a soma dos valores de cada grupo; em dados não numéricos realiza concatenação
-grupo.sum()
+print("\nSoma dos valores por classe (concatenação nos dados não numéricos):")
+print(grupo.sum())
 
 # Calculando a soma apenas dos valores numéricos, ignorando campos não numéricos
-grupo.sum(numeric_only=True)
+print("\nSoma apenas dos valores numéricos por classe:")
+print(grupo.sum(numeric_only=True))
 
 # Calculando a média apenas dos valores numéricos
-grupo.mean(numeric_only=True)
+print("\nMédia dos valores numéricos por classe:")
+print(grupo.mean(numeric_only=True))
 
 # Encontrando o valor mínimo para cada classe, apenas dos valores numéricos
-df.groupby("Classe").min(numeric_only=True)
+print("\nValor mínimo apenas dos valores numéricos por classe:")
+print(df.groupby("Classe").min(numeric_only=True))
 
 # Encontrando o valor mínimo para cada classe, incluindo todos os tipos de dados
-df.groupby("Classe").min()
+print("\nValor mínimo para cada classe (inclui todos os tipos de dados):")
+print(df.groupby("Classe").min())
 
 # Encontrando o valor máximo para cada classe, apenas dos valores numéricos
-df.groupby("Classe").max(numeric_only=True)
+print("\nValor máximo apenas dos valores numéricos por classe:")
+print(df.groupby("Classe").max(numeric_only=True))
 
 # Encontrando o valor máximo para cada classe, incluindo todos os tipos de dados
-df.groupby("Classe").max()
+print("\nValor máximo para cada classe (inclui todos os tipos de dados):")
+print(df.groupby("Classe").max())
 
 # Criando uma cópia de df e armazenando em df2
 df2 = df.copy()
-
-# Atualizando a coluna 'Venda' de df2 com novos valores
 df2["Venda"] = [150, 432, 190, 230, 410, 155]
+print("\nDataFrame modificado (df2):")
+print(df2)
 
 # Concatenando df e df2
 df3 = pd.concat([df, df2])
+print("\nDataFrame resultante após concatenação de df e df2:")
+print(df3)
 
 # Agrupando df3 por 'Classe' e 'Nome' e calculando a soma dos valores
-result = df3.groupby(["Classe", "Nome"]).sum()
-
-# Exibindo o resultado do agrupamento e soma
-print(result)
+print("\nResultado após agrupar por 'Classe' e 'Nome' e calcular a soma dos valores:")
+print(df3.groupby(["Classe", "Nome"]).sum())
