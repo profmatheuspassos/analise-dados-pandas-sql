@@ -15,50 +15,69 @@ caminhoArquivoBD = caminhoPasta.parents[0] / "arquivos" / "web.db"
 # Estabelece uma conexão com o banco de dados SQLite
 conexao = sqlite3.connect(str(caminhoArquivoBD))
 
-# Carrega os dados do arquivo CSV para um DataFrame do Pandas
-dfData = pd.read_csv(str(caminhoArquivoOriginal), index_col=0)
-
-# Define o nome para o índice do DataFrame
-dfData.index.name = "index_name"
-
-# Insere o DataFrame na tabela 'data' do banco de dados SQLite, definindo 'index_name' como a label do índice
-dfData.to_sql("data", conexao, index_label="index_name")
-
-# COM SQL
+# SELECT NO SQL
 
 # Cria um objeto cursor que permite executar comandos SQL no banco de dados
 c = conexao.cursor()
 
-# Executa um comando SQL para criar uma tabela chamada 'produtos' com três colunas
-c.execute("CREATE TABLE produtos (produto_ID, produto_nome, preco)")
+# Executa uma consulta SQL para selecionar todos os registros da tabela 'data'
+c.execute("SELECT * FROM data")
 
-# Confirma (commit) a transação para garantir que a criação da tabela seja efetivada no banco de dados
-conexao.commit()
+# Imprime o primeiro registro da consulta
+print("Imprime o primeiro registro da consulta")
+print(c.fetchone())
 
-# Executa um comando SQL para deletar (drop) a tabela 'produtos' caso ela exista
-c.execute("DROP TABLE produtos")
+# Imprime todos os registros restantes da consulta
+print("Imprime todos os registros restantes da consulta")
+print(c.fetchall())
 
-# Cria novamente a tabela 'produtos' com especificações mais detalhadas para cada coluna
-# 'produto_ID' é definido como chave primária e inteiro
-# 'produto_nome' é definido como texto
-# 'preco' é definido como inteiro
-c.execute("CREATE TABLE produtos ([produto_ID] INTEGER PRIMARY KEY, [produto_nome] TEXT, [preco] INTEGER)")
+# Tenta criar um DataFrame a partir dos resultados restantes da consulta
+# Nota: Isto não é uma boa prática porque os nomes das colunas tornam-se aleatórias
+print("Tenta criar um DataFrame a partir dos resultados restantes da consulta")
+df = pd.DataFrame(c.fetchall())
+print(df)
 
-# Insere dados na tabela 'produtos' utilizando um comando SQL
-c.execute("""INSERT INTO produtos (produto_ID, produto_nome, preco)
-          VALUES
-          (1, "Computador", 800),   # Insere um produto com ID 1, nome "Computador" e preço 800
-          (2, "Impressora", 200),   # Insere um produto com ID 2, nome "Impressora" e preço 200
-          (3, "Tablet", 300)        # Insere um produto com ID 3, nome "Tablet" e preço 300
-          """)
+# Executa uma consulta SQL para selecionar registros onde a coluna A é maior que 200
+print("Executa uma consulta SQL para selecionar registros onde a coluna A é maior que 200")
+c.execute("SELECT * FROM data WHERE A > 200")
 
-# Confirma as alterações na base de dados
-conexao.commit()
+# Cria um DataFrame a partir dos resultados da consulta e o imprime
+print("Cria um DataFrame a partir dos resultados da consulta")
+df = pd.DataFrame(c.fetchall())
+print(df)
 
-# NOVAMENTE COM PANDAS - INSERINDO VALORES NA TABELA JÁ EXISTENTE
+# Executa uma consulta SQL com uma condição mais específica, selecionando registros onde A > 200 e B > 100
+print("Executa uma consulta SQL com uma condição mais específica, selecionando registros onde A > 200 e B > 100")
+c.execute("SELECT * FROM data WHERE A > 200 AND B > 100")
 
-# Seleciona linhas do DataFrame dfData em passos de 2 em ordem inversa
-dfData2 = dfData.iloc[::-2]
+# Cria um DataFrame a partir dos resultados e o imprime
+print("Cria um DataFrame a partir dos resultados da consulta")
+df = pd.DataFrame(c.fetchall())
+print(df)
 
-# Insere o DataFrame dfData2 na tabela 'data' do banco de dados, anexando os dados aos já existentes
-dfData2.to_sql("data", conexao, if_exists="append")
+# Executa uma consulta SQL para selecionar apenas as colunas A, B, e C com condições específicas
+print("Executa uma consulta SQL para selecionar apenas as colunas A, B, e C com condições específicas")
+c.execute("SELECT A, B, C FROM data WHERE A > 200 AND B > 100")
+
+# Cria um DataFrame a partir dos resultados e o imprime
+print("Cria um DataFrame a partir dos resultados da consulta")
+df = pd.DataFrame(c.fetchall())
+print(df)
+
+# Armazena uma consulta SQL em uma variável
+pesquisa = "SELECT * FROM data"
+
+# Executa a consulta armazenada e cria um DataFrame diretamente utilizando a função read_sql do pandas
+print("Executa a consulta armazenada e cria um DataFrame diretamente utilizando a função read_sql do pandas")
+df = pd.read_sql(pesquisa, con=conexao)
+print(df)
+
+# Executa a mesma consulta, mas especifica 'index_name' como a coluna índice do DataFrame
+print("Executa a mesma consulta, mas especifica 'index_name' como a coluna índice do DataFrame")
+df = pd.read_sql(pesquisa, con=conexao, index_col="index_name")
+print(df)
+
+# Executa uma consulta SQL mais complexa e diretamente cria um DataFrame especificando colunas
+print("Executa uma consulta SQL mais complexa e diretamente cria um DataFrame especificando colunas")
+df = pd.read_sql("SELECT A, B, C FROM data WHERE A > 200 AND B > 100", con=conexao)
+print(df)
