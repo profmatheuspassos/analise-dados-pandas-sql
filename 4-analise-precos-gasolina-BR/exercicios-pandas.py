@@ -37,22 +37,29 @@ with open(arquivoResultados, "w") as file:
 
     # Calculando o preço médio de revenda da gasolina em agosto de 2008
     preco_medio_ago2008 = dfGasolinaComum[dfGasolinaComum["ANO_MES"] == "2008-08"]["PREÇO MÉDIO REVENDA"].mean()
-    print(f"Preço médio de revenda da gasolina em agosto de 2008: R${preco_medio_ago2008:.2f}")
+    resultado_ago2008 = f"Preço médio de revenda da gasolina em agosto de 2008: R$ {preco_medio_ago2008:.2f}\n\n\n\n"
+    print(resultado_ago2008)
+    file.write(resultado_ago2008)
 
     # Calculando o preço médio de revenda da gasolina em maio de 2014 em São Paulo
     preco_medio_mai2014_sp = dfGasolinaComum[(dfGasolinaComum["ESTADO"] == "SAO PAULO") & (dfGasolinaComum["ANO_MES"] == "2014-05")]["PREÇO MÉDIO REVENDA"].mean()
-    print(f"Preço médio de revenda da gasolina em maio de 2014 em São Paulo: R${preco_medio_mai2014_sp:.2f}")
+    resultado_mai2014_sp = f"Preço médio de revenda da gasolina em maio de 2014 em São Paulo: R$ {preco_medio_mai2014_sp:.2f}\n\n\n\n"
+    print(resultado_mai2014_sp)
+    file.write(resultado_mai2014_sp)
 
     # Determinando em que estado e quando a gasolina ultrapassou a barreira dos R$ 5,00
     dfAcimaDeCinco = dfGasolinaComum[dfGasolinaComum["PREÇO MÁXIMO REVENDA"] > 5]
     resultado = dfAcimaDeCinco[["ANO_MES", "ESTADO", "PREÇO MÁXIMO REVENDA"]]
-
-    print("Estados e meses em que o preço da gasolina ultrapassou R$5,00:")
+    print("Estados e meses em que o preço da gasolina ultrapassou R$ 5,00:")
     print(resultado.drop_duplicates())
+    file.write("Estados e meses em que o preço da gasolina ultrapassou R$ 5,00:\n")
+    file.write(resultado.drop_duplicates().to_string() + "\n\n\n\n")
 
     # Calculando a média de preço dos estados da região Sul em 2012
     preco_medio_sul_2012 = dfGasolinaComum[(dfGasolinaComum["REGIÃO"] == "SUL") & (dfGasolinaComum["ANO_MES"].dt.strftime('%Y') == "2012")]["PREÇO MÉDIO REVENDA"].mean()
-    print(f"Média de preço da gasolina na região Sul em 2012: R${preco_medio_sul_2012:.2f}")
+    resultado_sul_2012 = f"Média de preço da gasolina na região Sul em 2012: R$ {preco_medio_sul_2012:.2f}\n\n\n\n"
+    print(resultado_sul_2012)
+    file.write(resultado_sul_2012)
 
     # Criando uma tabela com a variação percentual ano a ano para o estado do Rio de Janeiro
     dfGasolinaComum["MES"] = dfGasolinaComum["DATA FINAL"].apply(lambda x: x.month)
@@ -61,6 +68,8 @@ with open(arquivoResultados, "w") as file:
     var_ano_rio = (dfMesRio[dfMesRio["MES"] == 12] / dfMesRio[dfMesRio["MES"] == 12].shift(1) - 1) * 100
     print("Variação percentual anual para o estado do Rio de Janeiro:")
     print(var_ano_rio.dropna())
+    file.write("Variação percentual anual para o estado do Rio de Janeiro:\n")
+    file.write(var_ano_rio.dropna().to_string() + "\n\n\n\n")
 
     # Desafio: Criando uma tabela com a diferença absoluta e percentual entre os preços mais baratos e caros, incluindo estados
     dfMax = dfGasolinaComum.groupby("ANO_MES").max()["PREÇO MÉDIO REVENDA"]
@@ -78,5 +87,7 @@ with open(arquivoResultados, "w") as file:
 
     print("Diferença absoluta e percentual entre os preços mais caros e baratos, por estado:")
     print(dfDiff)
+    file.write("Diferença absoluta e percentual entre os preços mais caros e baratos, por estado:\n")
+    file.write(dfDiff.to_string() + "\n")
 
 # Encerrando o bloco with para garantir que o arquivo seja fechado corretamente
