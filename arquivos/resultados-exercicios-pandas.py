@@ -1,6 +1,12 @@
-Preço médio de revenda da gasolina em agosto de 2008: R$2.60
-Preço médio de revenda da gasolina em maio de 2014 em São Paulo: R$2.88
-Estados e meses em que o preço da gasolina ultrapassou R$5,00:
+Preço médio de revenda da gasolina em agosto de 2008: R$ 2.60
+
+
+
+Preço médio de revenda da gasolina em maio de 2014 em São Paulo: R$ 2.88
+
+
+
+Estados e meses em que o preço da gasolina ultrapassou R$ 5,00:
         ANO_MES               ESTADO  PREÇO MÁXIMO REVENDA
 92471   2017-09                 ACRE                 5.100
 92771   2017-09                 ACRE                 5.200
@@ -890,7 +896,13 @@ Estados e meses em que o preço da gasolina ultrapassou R$5,00:
 120723  2021-05            SAO PAULO                 6.099
 120724  2021-05              SERGIPE                 5.699
 120725  2021-05            TOCANTINS                 6.119
-Média de preço da gasolina na região Sul em 2012: R$2.72
+
+
+
+Média de preço da gasolina na região Sul em 2012: R$ 2.72
+
+
+
 Variação percentual anual para o estado do Rio de Janeiro:
          PREÇO MÉDIO REVENDA  MES
 ANO_MES                          
@@ -910,6 +922,9 @@ ANO_MES
 2018-12             5.804749  0.0
 2019-12             3.802993  0.0
 2020-12            -1.321321  0.0
+
+
+
 Diferença absoluta e percentual entre os preços mais caros e baratos, por estado:
          ABS_DIFF  PERCENT_DIFF    MAX    MIN      ESTADO_MAX           ESTADO_MIN
 ANO_MES                                                                           
