@@ -1,0 +1,11 @@
+These styles are designed to work with a dark jupyter theme.
+
+I configued mine specifically by running the below command:
+
+
+pip install jupyter_contrib_nbextensions
+### pip install jupyter_nbextensions_configurator
+jupyter contrib nbextension install 
+
+pip install jupyterthemes
+jt -t onedork -fs 14 -tfs 14 -nfs 14 -dfs 11 -ofs 11 -cellw 1200
